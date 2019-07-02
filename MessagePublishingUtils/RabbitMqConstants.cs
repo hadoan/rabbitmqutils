@@ -12,6 +12,7 @@ namespace MessagePublishingUtils
 
         public const string DEFAULT_ROUTING_KEY = "KonbiDefaultRoutingKey";
         public const string EXCHANGE_M2CLOUD_NOQUEUE = "KonbiMachine2CloudExchangeNoQueue";
+        public const string EXCHANGE_CLOUD_TO_MACHINE_NOQUEUE = "KonbiCloud2MachineExchangeNoQueue";
         public const string EXCHANGE_CLOUD_TO_MACHINE_QUEUED = "KonbiCloud2MachineExchangeQueued";
         public const string EXCHANGE_M2CLOUD_QUEUED = "KonbiMachine2CloudExchangeQueued";
 

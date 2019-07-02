@@ -73,17 +73,17 @@ namespace MessagePublishingUtils
 
         }
 
-        public bool SendMsgToCloud(KeyValueMessage message, CloudToMachineType machineType)
+        public bool SendMsgToMachines(KeyValueMessage message, CloudToMachineType machineType)
         {
             if (!isConnectedToServer)
                 throw new InvalidOperationException("Please call InitConfigAndConnect medthod first!");
             try
             {
                 var _noQueueChannel = _connectToRabbitMqService.GetNoQueuedModel();
-                _noQueueChannel.ExchangeDeclare(RabbitMqConstants.EXCHANGE_M2CLOUD_NOQUEUE, "fanout");
+                _noQueueChannel.ExchangeDeclare(RabbitMqConstants.EXCHANGE_CLOUD_TO_MACHINE_NOQUEUE, "fanout");
                 var body = MessagePackSerializer.Serialize(message);
 
-                _noQueueChannel.BasicPublish(exchange: RabbitMqConstants.EXCHANGE_M2CLOUD_NOQUEUE,
+                _noQueueChannel.BasicPublish(exchange: RabbitMqConstants.EXCHANGE_CLOUD_TO_MACHINE_NOQUEUE,
                     routingKey: "",
                     basicProperties: null,
                     body: body);
@@ -93,11 +93,16 @@ namespace MessagePublishingUtils
             }
             catch (Exception e)
             {
-                MessageLogUtil.Error("SendMsgToCloud", e);
-                ErrorAction?.Invoke(e, "SendMsgToCloud");
+                MessageLogUtil.Error("SendMsgToMachine", e);
+                ErrorAction?.Invoke(e, "SendMsgToMachine");
                 return false;
             }
 
+        }
+
+        public void Close()
+        {
+            _connectToRabbitMqService.Dispose();
         }
 
     }
