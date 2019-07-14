@@ -15,9 +15,17 @@ namespace MessagePublish
 
             var sendMachineSvc = serviceProvider.GetService<ISendMessageToMachineClientService>();
             sendMachineSvc.InitConfigAndConnect("127.0.0.1", "testuser", "testpassword");
-            sendMachineSvc.SendMsgToMachines(new KeyValueMessage { Value = "Hello from cloud" }, CloudToMachineType.AllMachines);
+           
 
-            Console.WriteLine("Sent hello world!");
+            var i=0;
+            while(true)
+            {
+                i++;
+                Console.WriteLine("Sent hello world! "+i);
+                 sendMachineSvc.SendMsgToMachines(new KeyValueMessage { Value = "Hello from cloud "+i }, CloudToMachineType.AllMachines);
+                System.Threading.Thread.Sleep(1000);
+            }
+            
             sendMachineSvc.Close();
         }
 

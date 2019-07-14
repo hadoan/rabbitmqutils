@@ -34,7 +34,31 @@ Reference: MessagePublish project
 
 # Subscribe message in client
 2. Java subscribe
+```sh
+ public void consumeNoQueuedMessage() throws IOException {
+        channel = conn.createChannel();
 
+        channel.exchangeDeclare("VooyCloud2MachineExchangeNoQueue", "fanout");
+        final String queueName = channel.queueDeclare().getQueue();
+        channel.queueBind(queueName, "VooyCloud2MachineExchangeNoQueue", "");
+        final boolean autoAck = false;
+
+        channel.basicConsume(queueName, autoAck, "my-client-name", new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+                    byte[] body) throws IOException {
+                String routingKey = envelope.getRoutingKey();
+                String contentType = properties.getContentType();
+                long deliveryTag = envelope.getDeliveryTag();
+                // (process the message components here ...)
+                String bodyString = new String(body);
+                // Log.d("RABBITMQ","received message: "+bodyString);
+                System.out.println("received message: " + bodyString);
+                channel.basicAck(deliveryTag, false);
+            }
+        });
+    }
+```
 1. C# - Reference [MessageSubscribe project](https://github.com/hadoan/rabbitmqutils/blob/master/netcore-test/MessageSubscribe/Program.cs)
 ```sh
   private static void ConsumeClientNoQueuedMessages()
