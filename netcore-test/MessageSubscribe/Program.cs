@@ -46,9 +46,9 @@ namespace MessageSubscribe
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body;
-                var message = MessagePackSerializer.Deserialize<KeyValueMessage>(body);
-                var json = MessagePackSerializer.ToJson(body);
-                Console.WriteLine(json);
+                var message = MessagePackSerializer.Deserialize<string>(body);
+                //var json = MessagePackSerializer.ToJson(body);
+                Console.WriteLine(message);
             };
             _clientToCloudNoQueueChannel.BasicConsume(queue: queueName,
                 autoAck: true,

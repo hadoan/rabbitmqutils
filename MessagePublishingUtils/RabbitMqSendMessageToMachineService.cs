@@ -33,8 +33,8 @@ namespace MessagePublishingUtils
             {
                 var _queuedChannel = _connectToRabbitMqService.GetQueuedModel();
                 _queuedChannel.ExchangeDeclare(exchange: RabbitMqConstants.EXCHANGE_CLOUD_TO_MACHINE_QUEUED, type: "direct");
-
-                var body = MessagePackSerializer.Serialize(message);
+                var msgStr = JsonConvert.SerializeObject(message);
+                var body = MessagePackSerializer.Serialize(msgStr);
 
                 var properties = _queuedChannel.CreateBasicProperties();
                 properties.Persistent = true;
@@ -81,7 +81,8 @@ namespace MessagePublishingUtils
             {
                 var _noQueueChannel = _connectToRabbitMqService.GetNoQueuedModel();
                 _noQueueChannel.ExchangeDeclare(RabbitMqConstants.EXCHANGE_CLOUD_TO_MACHINE_NOQUEUE, "fanout");
-                var body = MessagePackSerializer.Serialize(message);
+                var msgStr = JsonConvert.SerializeObject(message);
+                var body = MessagePackSerializer.Serialize(msgStr);
 
                 _noQueueChannel.BasicPublish(exchange: RabbitMqConstants.EXCHANGE_CLOUD_TO_MACHINE_NOQUEUE,
                     routingKey: "",

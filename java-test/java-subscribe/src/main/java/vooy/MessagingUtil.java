@@ -8,6 +8,10 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.GetResponse;
 
+import org.msgpack.core.MessageBufferPacker;
+import org.msgpack.core.MessagePack;
+import org.msgpack.core.MessageUnpacker;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -48,9 +52,14 @@ public class MessagingUtil {
                 String contentType = properties.getContentType();
                 long deliveryTag = envelope.getDeliveryTag();
                 // (process the message components here ...)
-                String bodyString = new String(body);
+                // String bodyString = new String(body);
                 // Log.d("RABBITMQ","received message: "+bodyString);
+                // MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
+                MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(body);
+                String bodyString = unpacker.unpackString();
+
                 System.out.println("received message: " + bodyString);
+
                 channel.basicAck(deliveryTag, false);
             }
         });
