@@ -17,11 +17,11 @@ namespace MessageSubscribe
             SetupContainer();
             Console.WriteLine("Hello World!");
             _connectToRabbitMqService = serviceProvider.GetService<IConnectToRabbitMqMessageService>();
-            _connectToRabbitMqService.Connect("vulture.rmq.cloudamqp.com", "mlvqiexf", "AXyiTOjiv3Ssd-W_1P5iO5o1ncsVHWFQ");
+            _connectToRabbitMqService.Connect("127.0.0.1", "testuser", "testpassword");
             ConsumeClientNoQueuedMessages();
             while(true)
             {
-                Console.WriteLine("checking...");
+                //Console.WriteLine("checking...");
                 Task.Delay(1000);
             }
         }

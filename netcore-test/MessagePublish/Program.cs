@@ -11,9 +11,10 @@ namespace MessagePublish
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            SetupContainer();
 
             var sendMachineSvc = serviceProvider.GetService<ISendMessageToMachineClientService>();
-            sendMachineSvc.InitConfigAndConnect("vulture-01.rmq.cloudamqp.com", "mlvqiexf", "AXyiTOjiv3Ssd-W_1P5iO5o1ncsVHWFQ");
+            sendMachineSvc.InitConfigAndConnect("127.0.0.1", "testuser", "testpassword");
             sendMachineSvc.SendMsgToMachines(new KeyValueMessage { Value = "Hello from cloud" }, CloudToMachineType.AllMachines);
 
             Console.WriteLine("Sent hello world!");

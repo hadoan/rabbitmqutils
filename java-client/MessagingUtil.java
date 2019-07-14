@@ -13,9 +13,9 @@ import java.util.concurrent.TimeoutException;
 
 public class VooyMessagingUtil {
 
-    private String userName="admin";
-    private String password="V00y123";
-    private  String hostName="server.quacauman.com";
+    private String userName="testuser";
+    private String password="testpassword";
+    private  String hostName="127.0.0.1";
     private ConnectionFactory factory;
     private Connection conn = null;
     private  Channel channel=null;
